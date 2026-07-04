@@ -127,19 +127,31 @@ async def get_dashboard_data():
     # System health
     system_health = {
         "overall": "healthy",
-        "issues": [
-            {
-                "severity": "warning",
-                "message": "GTFS-RT using mock data (gtfs_realtime_bindings not installed)",
-                "component": "Mobility Feed"
-            },
-            {
-                "severity": "info",
-                "message": "Demographic data coverage partial (4/49 geohashes)",
-                "component": "Vulnerability Node"
-            }
-        ]
+        "issues": []
     }
+    
+    # Check if gtfs_realtime_bindings is installed
+    try:
+        import gtfs_realtime_bindings
+    except ImportError:
+        system_health["issues"].append({
+            "severity": "warning",
+            "message": "GTFS-RT using mock data (gtfs_realtime_bindings not installed)",
+            "component": "Mobility Feed"
+        })
+    
+    # Check demographic data coverage
+    total_geohashes = last_cycle_data.get('unified_data_count', 0)
+    if total_geohashes > 0:
+        # Check if demographic data is available for all geohashes
+        # This is a simplified check - in production, would check actual coverage
+        demographic_coverage = 4  # This would be calculated from actual data
+        if demographic_coverage < total_geohashes:
+            system_health["issues"].append({
+                "severity": "info",
+                "message": f"Demographic data coverage partial ({demographic_coverage}/{total_geohashes} geohashes)",
+                "component": "Vulnerability Node"
+            })
     
     # Forecasting data
     forecasting_data = {
