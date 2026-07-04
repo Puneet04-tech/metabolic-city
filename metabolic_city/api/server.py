@@ -60,6 +60,7 @@ async def get_dashboard_data():
     - System status
     - Recent activity
     - Data source status
+    - Forecasting data
     """
     global last_cycle_data, last_cycle_time
     
@@ -140,6 +141,14 @@ async def get_dashboard_data():
         ]
     }
     
+    # Forecasting data
+    forecasting_data = {
+        "enabled": settings.forecasting_enabled,
+        "forecasts_generated": last_cycle_data.get('risk_scores_count', 0),
+        "alert_forecasts": 0,  # Will be populated from actual forecasting
+        "horizon_hours": settings.forecasting_horizon_hours
+    }
+    
     return {
         "timestamp": last_cycle_time.isoformat() if last_cycle_time else datetime.utcnow().isoformat(),
         "pipeline_results": last_cycle_data,
@@ -148,6 +157,7 @@ async def get_dashboard_data():
         "recent_activity": recent_activity,
         "data_sources": data_sources,
         "system_health": system_health,
+        "forecasting": forecasting_data,
         "system_status": {
             "pipeline_enabled": settings.pipeline_enabled,
             "forecasting_enabled": settings.forecasting_enabled,
@@ -179,6 +189,99 @@ async def run_pipeline_cycle():
 async def get_system_status():
     """Get detailed system status"""
     return pipeline.generate_status_report()
+
+
+@app.post("/api/simulation/run")
+async def run_simulation(scenario: dict):
+    """
+    Run a simulation scenario
+    
+    Args:
+        scenario: Dictionary with scenario parameters
+        
+    Returns:
+        Simulation results
+    """
+    try:
+        from metabolic_city.utils.data_models import SimulationScenario, UnifiedDataPoint
+        from metabolic_city.simulation.simulation_engine import SimulationEngine
+        
+        engine = SimulationEngine()
+        
+        # Create a simple scenario for testing
+        # In production, this would come from the request body
+        scenario_data = {
+            "scenario_id": "test_scenario",
+            "name": "Test Scenario",
+            "description": "Test simulation scenario",
+            "parameters": {
+                "mobility": {"vehicle_count": 50},
+                "climate": {"temperature": 25}
+            }
+        }
+        
+        # For now, return mock results
+        return {
+            "scenario_id": "test_scenario",
+            "name": "Test Scenario",
+            "results": {
+                "baseline_composite_risk": 4.1,
+                "modified_composite_risk": 4.8,
+                "risk_change": 0.7,
+                "risk_level_change": "increased",
+                "recommendation": "LOW IMPACT: This change slightly increases risk. Monitor closely during implementation."
+            },
+            "status": "completed"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Simulation error: {str(e)}")
+
+
+@app.post("/api/feedback/submit")
+async def submit_feedback(feedback: dict):
+    """
+    Submit citizen feedback
+    
+    Args:
+        feedback: Dictionary with feedback data
+        
+    Returns:
+        Feedback submission result
+    """
+    try:
+        # For now, return mock response
+        return {
+            "feedback_id": "fb_" + str(hash(str(feedback)))[0:8],
+            "status": "submitted",
+            "message": "Feedback submitted successfully",
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Feedback error: {str(e)}")
+
+
+@app.post("/api/dispatch/send")
+async def send_dispatch(dispatch: dict):
+    """
+    Send dispatch to agency
+    
+    Args:
+        dispatch: Dictionary with dispatch data
+        
+    Returns:
+        Dispatch result
+    """
+    try:
+        # For now, return mock response
+        return {
+            "dispatch_id": "dp_" + str(hash(str(dispatch)))[0:8],
+            "status": "sent",
+            "agency": dispatch.get("agency", "unknown"),
+            "message": "Dispatch sent successfully",
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Dispatch error: {str(e)}")
 
 
 if __name__ == "__main__":

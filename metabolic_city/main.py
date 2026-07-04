@@ -144,9 +144,18 @@ class MetabolicCityPipeline:
         if settings.forecasting_enabled:
             logger.info("Running trend forecasting...")
             geohashes = list(unified_data.keys())
-            forecasts = self.trend_forecaster.forecast_batch(geohashes)
+            forecasts = {}
+            for geohash in geohashes:
+                current_score = risk_scores.get(geohash)
+                if current_score:
+                    forecast = self.trend_forecaster.forecast_risk(
+                        geohash, 
+                        current_score.composite_risk_index
+                    )
+                    if forecast:
+                        forecasts[geohash] = forecast
             alert_forecasts = self.trend_forecaster.get_alert_forecasts(geohashes)
-            logger.info(f"Forecasting complete: {len(alert_forecasts)} geohashes likely to cross threshold")
+            logger.info(f"Forecasting complete: {len(forecasts)} forecasts, {len(alert_forecasts)} geohashes likely to cross threshold")
         
         # Feedback Integration
         if settings.feedback_enabled:

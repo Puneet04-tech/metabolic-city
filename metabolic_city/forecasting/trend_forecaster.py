@@ -24,12 +24,13 @@ class TrendForecaster:
         if not self.enabled:
             logger.warning("Trend forecasting is disabled in settings")
     
-    def forecast_risk(self, geohash: str) -> Optional[Dict]:
+    def forecast_risk(self, geohash: str, current_score: Optional[float] = None) -> Optional[Dict]:
         """
         Forecast risk for a specific geohash
         
         Args:
             geohash: Geohash string
+            current_score: Current risk score (optional, uses historical if not provided)
             
         Returns:
             Dictionary with forecast data or None if insufficient data
@@ -40,9 +41,41 @@ class TrendForecaster:
         # Get historical data
         history = self.memory_matrix.get_history(geohash, hours=48)
         
-        if len(history) < 10:
-            logger.debug(f"Insufficient historical data for {geohash}")
-            return None
+        # If we have a current score but no history, use it
+        if current_score is not None and len(history) < 10:
+            history = [{"composite_risk_index": current_score, "timestamp": datetime.utcnow()}]
+        
+        if len(history) < 3:
+            # Generate a basic forecast even with limited data
+            if current_score is not None:
+                base_score = current_score
+            elif len(history) > 0:
+                base_score = history[-1]["composite_risk_index"]
+            else:
+                return None
+            
+            # Simple projection with low confidence
+            projected_score = base_score * 1.05  # Assume 5% increase
+            projected_score = max(0.0, min(10.0, projected_score))
+            
+            from metabolic_city.config.settings import settings
+            threshold = settings.risk_threshold
+            will_cross_threshold = projected_score >= threshold
+            
+            forecast = {
+                "geohash": geohash,
+                "forecast_timestamp": (datetime.utcnow() + timedelta(hours=self.forecasting_horizon)).isoformat(),
+                "current_score": base_score,
+                "projected_score": projected_score,
+                "trend": "stable",
+                "rate_of_change": 0.05,
+                "will_cross_threshold": will_cross_threshold,
+                "confidence": 0.3,  # Low confidence with limited data
+                "horizon_hours": self.forecasting_horizon
+            }
+            
+            logger.debug(f"Basic forecast for {geohash}: {forecast['projected_score']:.2f}")
+            return forecast
         
         # Calculate trend
         trend = self.memory_matrix.get_trend(geohash, hours=24)

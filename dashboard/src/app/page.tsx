@@ -9,6 +9,10 @@ import TrendChart from '@/components/TrendChart'
 import RecentActivity from '@/components/RecentActivity'
 import SystemHealth from '@/components/SystemHealth'
 import DataSources from '@/components/DataSources'
+import ForecastingPanel from '@/components/ForecastingPanel'
+import SimulationPanel from '@/components/SimulationPanel'
+import FeedbackPanel from '@/components/FeedbackPanel'
+import DispatchPanel from '@/components/DispatchPanel'
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
@@ -138,7 +142,7 @@ export default function Home() {
             </div>
 
             {/* Secondary Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
               {/* Recent Activity */}
               <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
                 <div className="flex items-center space-x-2 mb-4">
@@ -171,6 +175,17 @@ export default function Home() {
                 </div>
                 <DataSources data={data} />
               </div>
+
+              {/* Forecasting */}
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+                <div className="flex items-center space-x-2 mb-4">
+                  <TrendingUp className="h-5 w-5 text-primary-600" />
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    Forecasting
+                  </h2>
+                </div>
+                <ForecastingPanel data={data} />
+              </div>
             </div>
 
             {/* Alerts */}
@@ -182,6 +197,42 @@ export default function Home() {
                 </h2>
               </div>
               <AlertsList data={data} />
+            </div>
+
+            {/* Enhanced Features Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Simulation Sandbox */}
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+                <div className="flex items-center space-x-2 mb-4">
+                  <TrendingUp className="h-5 w-5 text-primary-600" />
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    Simulation Sandbox
+                  </h2>
+                </div>
+                <SimulationPanel data={data} />
+              </div>
+
+              {/* Citizen Feedback */}
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+                <div className="flex items-center space-x-2 mb-4">
+                  <Activity className="h-5 w-5 text-primary-600" />
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    Citizen Feedback
+                  </h2>
+                </div>
+                <FeedbackPanel data={data} />
+              </div>
+
+              {/* Multi-Agency Dispatch */}
+              <div className="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+                <div className="flex items-center space-x-2 mb-4">
+                  <MapPin className="h-5 w-5 text-primary-600" />
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
+                    Agency Dispatch
+                  </h2>
+                </div>
+                <DispatchPanel data={data} />
+              </div>
             </div>
           </div>
         ) : (
