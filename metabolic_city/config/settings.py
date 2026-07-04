@@ -12,9 +12,14 @@ class Settings(BaseSettings):
     """Application configuration"""
     
     # API Keys
-    openai_api_key: Optional[str] = Field(None, env="OPENAI_API_KEY")
-    anthropic_api_key: Optional[str] = Field(None, env="ANTHROPIC_API_KEY")
+    gemini_api_key: Optional[str] = Field(None, env="GEMINI_API_KEY")
+    mistral_api_key: Optional[str] = Field(None, env="MISTRAL_API_KEY")
     weather_api_key: Optional[str] = Field(None, env="WEATHER_API_KEY")
+    
+    # AI Model Configuration
+    gemini_model_primary: str = Field("gemini-2.5-flash", env="GEMINI_MODEL_PRIMARY")
+    gemini_model_fallback: str = Field("gemini-1.5-flash", env="GEMINI_MODEL_FALLBACK")
+    mistral_model: str = Field("mistral-large-latest", env="MISTRAL_MODEL")
     
     # GTFS-RT Endpoints
     gtfs_rt_vehicle_positions_url: Optional[str] = Field(None, env="GTFS_RT_VEHICLE_POSITIONS_URL")

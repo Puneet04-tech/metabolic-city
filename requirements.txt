@@ -22,11 +22,10 @@ requests==2.31.0
 # Database & Storage
 sqlalchemy==2.0.23
 alembic==1.13.1
-sqlite3
 
 # AI/ML
-openai==1.6.1
-anthropic==0.8.1
+google-generativeai==0.8.3
+mistralai==1.0.0
 
 # Async Task Scheduling
 apscheduler==3.10.4

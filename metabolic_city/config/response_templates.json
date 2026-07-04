@@ -1,0 +1,115 @@
+{
+  "compound_thermal_stranding": {
+    "emergency_type": "compound_thermal_stranding",
+    "name": "Compound Thermal Stranding Emergency",
+    "description": "High temperatures combined with transit delays and vulnerable population",
+    "dispatch_zone_template": "{geohash} and surrounding 2km radius",
+    "staging_area_template": "Nearest community center or public facility in {geohash}",
+    "equipment_checklist": [
+      "mobile_cooling_units",
+      "hydration_supplies",
+      "medical_kits",
+      "portable_shade_structures",
+      "communication_equipment",
+      "transportation_vehicles"
+    ],
+    "personnel_requirements": {
+      "medical_staff": 2,
+      "logistics_coordinators": 1,
+      "volunteer_supervisors": 3,
+      "drivers": 2
+    },
+    "estimated_duration_hours": 4,
+    "priority_level": "high"
+  },
+  "compound_transit_isolation": {
+    "emergency_type": "compound_transit_isolation",
+    "name": "Compound Transit Isolation Emergency",
+    "description": "Severe transit disruptions affecting vulnerable communities",
+    "dispatch_zone_template": "{geohash} transit corridor and adjacent neighborhoods",
+    "staging_area_template": "Major transit hub serving {geohash}",
+    "equipment_checklist": [
+      "alternative_transportation_vehicles",
+      "communication_systems",
+      "route_information_displays",
+      "crowd_control_equipment",
+      "medical_supplies"
+    ],
+    "personnel_requirements": {
+      "transit_coordinators": 2,
+      "customer_service_staff": 4,
+      "security_personnel": 2,
+      "logistics_staff": 1
+    },
+    "estimated_duration_hours": 6,
+    "priority_level": "high"
+  },
+  "compound_flood_evacuation": {
+    "emergency_type": "compound_flood_evacuation",
+    "name": "Compound Flood Evacuation Emergency",
+    "description": "Flash flooding combined with mobility issues and vulnerable population",
+    "dispatch_zone_template": "{geohash} flood zone and evacuation routes",
+    "staging_area_template": "High ground shelter nearest to {geohash}",
+    "equipment_checklist": [
+      "water_rescue_equipment",
+      "emergency_vehicles",
+      "sandbags",
+      "pumps",
+      "emergency_shelter_supplies",
+      "medical_triage_equipment"
+    ],
+    "personnel_requirements": {
+      "rescue_teams": 3,
+      "medical_personnel": 4,
+      "evacuation_coordinators": 2,
+      "logistics_staff": 3,
+      "communication_specialists": 1
+    },
+    "estimated_duration_hours": 12,
+    "priority_level": "critical"
+  },
+  "compound_infrastructure_failure": {
+    "emergency_type": "compound_infrastructure_failure",
+    "name": "Compound Infrastructure Failure Emergency",
+    "description": "Critical infrastructure failure affecting multiple domains",
+    "dispatch_zone_template": "{geohash} and affected service areas",
+    "staging_area_template": "Emergency operations center for {geohash}",
+    "equipment_checklist": [
+      "repair_equipment",
+      "backup_power_generators",
+      "communication_relay_systems",
+      "water_distribution_units",
+      "emergency_lighting"
+    ],
+    "personnel_requirements": {
+      "engineers": 3,
+      "technicians": 4,
+      "safety_officers": 2,
+      "logistics_coordinators": 2
+    },
+    "estimated_duration_hours": 8,
+    "priority_level": "critical"
+  },
+  "compound_public_health": {
+    "emergency_type": "compound_public_health",
+    "name": "Compound Public Health Emergency",
+    "description": "Public health crisis compounded by environmental and social factors",
+    "dispatch_zone_template": "{geohash} and surrounding health district",
+    "staging_area_template": "Nearest medical facility serving {geohash}",
+    "equipment_checklist": [
+      "medical_supplies",
+      "testing_equipment",
+      "protective_equipment",
+      "communication_systems",
+      "quarantine_facilities"
+    ],
+    "personnel_requirements": {
+      "medical_personnel": 5,
+      "public_health_officers": 3,
+      "contact_tracers": 4,
+      "logistics_staff": 2
+    },
+    "estimated_duration_hours": 24,
+    "priority_level": "critical"
+  }
+}
