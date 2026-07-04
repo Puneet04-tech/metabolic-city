@@ -60,16 +60,19 @@ Create a `.env` file with the following variables:
 
 ```env
 # API Keys
-OPENAI_API_KEY=your_openai_key
-ANTHROPIC_API_KEY=your_anthropic_key
-WEATHER_API_KEY=your_weather_api_key
+GEMINI_API_KEY=your_gemini_api_key_here
+MISTRAL_API_KEY=your_mistral_api_key_here
+WEATHER_API_KEY=your_weather_api_key_here
 
-# GTFS-RT Endpoints
+# AI Model Configuration
+GEMINI_MODEL_PRIMARY=gemini-2.5-flash
+GEMINI_MODEL_FALLBACK=gemini-1.5-flash
+MISTRAL_MODEL=mistral-large-latest
+
+# GTFS-RT Endpoints (Optional - will use mock data if not configured)
 GTFS_RT_VEHICLE_POSITIONS_URL=https://example.com/gtfs-rt/vehicle-positions
 GTFS_RT_TRIP_UPDATES_URL=https://example.com/gtfs-rt/trip-updates
-
-# Database
-DATABASE_URL=sqlite:///metabolic_city/data/metabolic_city.db
+GTFS_STATIC_URL=https://example.com/gtfs-static.zip
 
 # Pipeline Settings
 PIPELINE_CYCLE_MINUTES=10
@@ -121,11 +124,21 @@ python -m metabolic_city.feedback.main
 python -m metabolic_city.dispatch.main
 ```
 
-### API Server
+### API Server & Dashboard
 
 ```bash
-uvicorn metabolic_city.api:app --reload
+# Start the FastAPI backend server
+python -m metabolic_city.api.server
+
+# In another terminal, start the Next.js dashboard
+cd dashboard
+npm install
+npm run dev
 ```
+
+The dashboard will be available at `http://localhost:3000` (or `http://localhost:3001` if 3000 is in use).
+
+See `dashboard/README.md` for detailed dashboard setup instructions.
 
 ## Project Structure
 
@@ -139,9 +152,11 @@ metabolic_city/
 ├── simulation/         # What-If sandbox
 ├── feedback/           # Citizen feedback integration
 ├── dispatch/           # Multi-agency dispatch broker
+├── api/                # FastAPI server for dashboard
 ├── utils/              # Shared utilities
 ├── config/             # Configuration management
-└── data/               # Data storage
+├── data/               # Data storage
+└── dashboard/          # Next.js frontend dashboard
 ```
 
 ## Implementation Strategy

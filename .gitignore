@@ -67,3 +67,13 @@ htmlcov/
 *.db
 *.sqlite
 *.sqlite3
+
+# Dashboard
+dashboard/node_modules/
+dashboard/.next/
+dashboard/out/
+dashboard/.turbo/
+
+# API Keys and sensitive configs
+*.key
+secrets/
