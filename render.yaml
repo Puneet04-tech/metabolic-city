@@ -33,9 +33,8 @@ sites:
   - type: web
     name: metabolic-city-frontend
     runtime: node
-    buildCommand: npm install && npm run build
-    publishPath: out
-    rootDirectory: dashboard
+    buildCommand: cd dashboard && npm install && npm run build
+    publishPath: dashboard/out
     envVars:
       - key: NODE_ENV
         value: "production"
