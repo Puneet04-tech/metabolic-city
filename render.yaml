@@ -5,7 +5,7 @@ services:
     runtime: python
     plan: free
     pythonVersion: 3.11.9
-    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    buildCommand: python3.11 -m pip install --upgrade pip && python3.11 -m pip install -r requirements.txt
     startCommand: python -m metabolic_city.api.server
     envVars:
       - key: PYTHONUNBUFFERED

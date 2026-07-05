@@ -1,43 +1,41 @@
 # Core Dependencies
-aiohttp==3.9.1
-asyncio==3.4.3
+aiohttp==3.8.7
 python-dotenv==1.0.0
-pydantic==2.5.3
-pydantic-settings==2.1.0
+pydantic==2.5.0
+pydantic-settings==2.0.3
 
 # Data Processing
-pandas>=2.2.3
-numpy>=1.26.4
-geopandas>=0.14.4
-geohash2==1.1
-shapely>=2.0.6
+pandas==2.0.3
+numpy==1.24.3
+geopandas==0.13.2
+shapely==2.0.1
 
 # GTFS-RT Processing
 gtfs-realtime-bindings==1.0.0
-protobuf==4.25.1
+protobuf==4.23.4
 
 # Weather API
 requests==2.31.0
 
 # Database & Storage
-sqlalchemy==2.0.23
-alembic==1.13.1
+sqlalchemy==2.0.20
+alembic==1.11.3
 
 # AI/ML
-google-generativeai==0.8.3
-mistralai==1.0.0
+google-generativeai==0.3.0
+mistralai==0.0.11
 
 # Async Task Scheduling
 apscheduler==3.10.4
 
 # Logging & Monitoring
-loguru==0.7.2
+loguru==0.7.0
 
 # Testing
-pytest==7.4.3
-pytest-asyncio==0.21.1
+pytest==7.4.0
+pytest-asyncio==0.21.0
 pytest-cov==4.1.0
 
 # API Framework
-fastapi==0.109.0
-uvicorn==0.27.0
+fastapi==0.104.1
+uvicorn==0.24.0
