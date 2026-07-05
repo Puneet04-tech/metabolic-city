@@ -1,0 +1,41 @@
+services:
+  # Backend Web Service
+  - type: web
+    name: metabolic-city-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m metabolic_city.api.server
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: API_HOST
+        value: "0.0.0.0"
+      - key: API_PORT
+        value: "8000"
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: MISTRAL_API_KEY
+        sync: false
+      - key: WEATHER_API_KEY
+        sync: false
+      - key: GTFS_RT_VEHICLE_POSITIONS_URL
+        sync: false
+      - key: GTFS_RT_TRIP_UPDATES_URL
+        sync: false
+      - key: GTFS_STATIC_URL
+        sync: false
+    healthCheckPath: /api/health
+
+# Frontend Static Site
+sites:
+  - type: web
+    name: metabolic-city-frontend
+    runtime: node
+    buildCommand: cd dashboard && npm install && npm run build
+    publishPath: dashboard/out
+    envVars:
+      - key: NODE_ENV
+        value: "production"
+      - key: NEXT_PUBLIC_API_URL
+        value: https://metabolic-city-backend.onrender.com
