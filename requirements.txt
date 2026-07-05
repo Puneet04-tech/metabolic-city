@@ -6,8 +6,8 @@ pydantic==2.5.2
 pydantic-settings==2.1.0
 
 # Data Processing
-pandas>=2.0.0,<2.3.0
-numpy>=1.24.0,<1.27.0
+pandas>=2.2.0
+numpy>=1.26.0
 geopandas>=0.14.0
 geohash2==1.1
 shapely>=2.0.0
