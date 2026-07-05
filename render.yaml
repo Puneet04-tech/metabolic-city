@@ -4,6 +4,7 @@ services:
     name: metabolic-city-backend
     runtime: python
     plan: free
+    pythonVersion: "3.11"
     buildCommand: pip install -r requirements.txt
     startCommand: python -m metabolic_city.api.server
     envVars:
