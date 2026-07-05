@@ -45,6 +45,9 @@ export default function DispatchPanel({ data }: DispatchPanelProps) {
 
   return (
     <div className="space-y-4">
+      <p className="text-xs text-slate-600 dark:text-slate-400">
+        Automated routing of response plans to municipal agencies with formatted dispatch instructions.
+      </p>
       {/* Agency Selection */}
       <div>
         <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">

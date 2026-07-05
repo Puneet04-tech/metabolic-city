@@ -32,6 +32,9 @@ export default function SimulationPanel({ data }: SimulationPanelProps) {
 
   return (
     <div className="space-y-4">
+      <p className="text-xs text-slate-600 dark:text-slate-400">
+        What-If scenario testing to simulate infrastructure changes and evaluate their impact on risk levels.
+      </p>
       {/* Controls */}
       <div className="flex space-x-2">
         <button

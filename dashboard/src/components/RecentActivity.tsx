@@ -40,6 +40,9 @@ export default function RecentActivity({ data }: RecentActivityProps) {
 
   return (
     <div className="space-y-3">
+      <p className="text-xs text-slate-600 dark:text-slate-400">
+        Recent pipeline operations and system events with timestamps for monitoring system performance.
+      </p>
       {activities.map((activity: any, index: number) => {
         const Icon = getIcon(activity.type)
         const colorClass = getColor(activity.type)

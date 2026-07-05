@@ -22,6 +22,9 @@ export default function ForecastingPanel({ data }: ForecastingPanelProps) {
 
   return (
     <div className="space-y-4">
+      <p className="text-xs text-slate-600 dark:text-slate-400">
+        Predictive analysis using historical data to forecast future risk levels and identify potential alerts.
+      </p>
       {/* Summary Stats */}
       <div className="grid grid-cols-2 gap-4">
         <div className="p-4 bg-slate-50 dark:bg-slate-700/50 rounded-lg">

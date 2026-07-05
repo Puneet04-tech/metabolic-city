@@ -15,6 +15,10 @@ export default function RiskMap({ data }: RiskMapProps) {
 
   return (
     <div className="space-y-4">
+      <p className="text-xs text-slate-600 dark:text-slate-400 mb-4">
+        Visualizes risk distribution across monitored locations based on composite risk scores from mobility, climate, and vulnerability analysis.
+      </p>
+      
       <div className="grid grid-cols-2 gap-4">
         {riskLevels.map((item) => (
           <div

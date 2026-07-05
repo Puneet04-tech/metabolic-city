@@ -47,6 +47,9 @@ export default function DataSources({ data }: DataSourcesProps) {
 
   return (
     <div className="space-y-3">
+      <p className="text-xs text-slate-600 dark:text-slate-400">
+        External data sources feeding the pipeline with real-time transit, weather, and demographic information.
+      </p>
       {sources.map((source: any, index: number) => {
         const Icon = getIcon(source.name)
         const colorClass = getStatusColor(source.status)

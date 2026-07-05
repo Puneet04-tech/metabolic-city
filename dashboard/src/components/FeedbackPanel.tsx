@@ -36,6 +36,9 @@ export default function FeedbackPanel({ data }: FeedbackPanelProps) {
 
   return (
     <div className="space-y-4">
+      <p className="text-xs text-slate-600 dark:text-slate-400">
+        Citizen feedback integration using NLP to process reports and adjust risk scores dynamically.
+      </p>
       {/* Input */}
       <div>
         <textarea

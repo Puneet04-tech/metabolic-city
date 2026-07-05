@@ -12,6 +12,7 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
       icon: MapPin,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50 dark:bg-blue-900/20',
+      description: 'Number of geohash locations being tracked by the pipeline'
     },
     {
       label: 'Risk Scores Generated',
@@ -19,6 +20,7 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
       icon: Activity,
       color: 'text-green-600',
       bgColor: 'bg-green-50 dark:bg-green-900/20',
+      description: 'Composite risk scores calculated from mobility, climate, and vulnerability data'
     },
     {
       label: 'Active Alerts',
@@ -26,6 +28,7 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
       icon: AlertTriangle,
       color: 'text-red-600',
       bgColor: 'bg-red-50 dark:bg-red-900/20',
+      description: 'High-priority alerts triggered when risk exceeds threshold'
     },
     {
       label: 'Last Cycle Duration',
@@ -33,6 +36,7 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
       icon: Clock,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50 dark:bg-purple-900/20',
+      description: 'Time taken to complete the last pipeline cycle'
     },
   ]
 
@@ -52,6 +56,9 @@ export default function DashboardStats({ data }: DashboardStatsProps) {
                 </p>
                 <p className="text-2xl font-bold text-slate-900 dark:text-white mt-1">
                   {stat.value}
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
+                  {stat.description}
                 </p>
               </div>
               <div className={`${stat.bgColor} ${stat.color} p-3 rounded-lg`}>

@@ -22,6 +22,9 @@ export default function AlertsList({ data }: AlertsListProps) {
 
   return (
     <div className="space-y-3">
+      <p className="text-xs text-slate-600 dark:text-slate-400">
+        High-priority alerts triggered when composite risk scores exceed the threshold. Requires immediate attention and coordinated response.
+      </p>
       {alerts.map((alert: any, index: number) => (
         <div
           key={index}

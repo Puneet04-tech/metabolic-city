@@ -17,36 +17,41 @@ export default function TrendChart({ data }: TrendChartProps) {
   ]
 
   return (
-    <div className="h-64">
-      <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={trendData}>
-          <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-700" />
-          <XAxis
-            dataKey="time"
-            className="text-xs text-slate-600 dark:text-slate-400"
-          />
-          <YAxis
-            className="text-xs text-slate-600 dark:text-slate-400"
-            domain={[0, 10]}
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: 'rgb(30, 41, 59)',
-              border: '1px solid rgb(51, 65, 85)',
-              borderRadius: '0.5rem',
-            }}
-            itemStyle={{ color: 'rgb(248, 250, 252)' }}
-          />
-          <Line
-            type="monotone"
-            dataKey="risk"
-            stroke="#0ea5e9"
-            strokeWidth={2}
-            dot={{ fill: '#0ea5e9' }}
-            activeDot={{ r: 6 }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+    <div className="space-y-4">
+      <p className="text-xs text-slate-600 dark:text-slate-400">
+        Tracks average risk scores over time to identify patterns and trends in urban system performance.
+      </p>
+      <div className="h-64">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={trendData}>
+            <CartesianGrid strokeDasharray="3 3" className="stroke-slate-200 dark:stroke-slate-700" />
+            <XAxis
+              dataKey="time"
+              className="text-xs text-slate-600 dark:text-slate-400"
+            />
+            <YAxis
+              className="text-xs text-slate-600 dark:text-slate-400"
+              domain={[0, 10]}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: 'rgb(30, 41, 59)',
+                border: '1px solid rgb(51, 65, 85)',
+                borderRadius: '0.5rem',
+              }}
+              itemStyle={{ color: 'rgb(248, 250, 252)' }}
+            />
+            <Line
+              type="monotone"
+              dataKey="risk"
+              stroke="#0ea5e9"
+              strokeWidth={2}
+              dot={{ fill: '#0ea5e9' }}
+              activeDot={{ r: 6 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
   )
 }

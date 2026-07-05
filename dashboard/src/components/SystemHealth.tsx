@@ -46,6 +46,9 @@ export default function SystemHealth({ data }: SystemHealthProps) {
 
   return (
     <div className="space-y-4">
+      <p className="text-xs text-slate-600 dark:text-slate-400">
+        Overall system health status with component-level issues and warnings for monitoring platform reliability.
+      </p>
       {/* Overall Status */}
       <div className={`flex items-center space-x-3 p-4 rounded-lg ${getOverallColor(health.overall)}`}>
         <Heart className="h-6 w-6" />
