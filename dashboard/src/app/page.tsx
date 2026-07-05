@@ -18,6 +18,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<any>(null)
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
+  const [secondsSinceUpdate, setSecondsSinceUpdate] = useState(0)
 
   const fetchData = async () => {
     setLoading(true)
@@ -37,9 +38,19 @@ export default function Home() {
 
   useEffect(() => {
     fetchData()
-    const interval = setInterval(fetchData, 60000) // Refresh every minute
+    const interval = setInterval(fetchData, 10000) // Refresh every 10 seconds
     return () => clearInterval(interval)
   }, [])
+
+  // Update seconds counter for real-time feel
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (lastUpdate) {
+        setSecondsSinceUpdate(Math.floor((Date.now() - lastUpdate.getTime()) / 1000))
+      }
+    }, 1000)
+    return () => clearInterval(timer)
+  }, [lastUpdate])
 
   const handleExport = async () => {
     if (!data) return
@@ -78,6 +89,17 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center space-x-3">
+              <div className="text-right mr-4">
+                <div className="flex items-center space-x-2">
+                  <div className={`w-2 h-2 rounded-full ${secondsSinceUpdate < 15 ? 'bg-green-500' : 'bg-yellow-500'} animate-pulse`} />
+                  <p className="text-xs text-slate-600 dark:text-slate-400">
+                    {secondsSinceUpdate < 15 ? 'Live' : 'Updating...'}
+                  </p>
+                </div>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  {secondsSinceUpdate < 60 ? `${secondsSinceUpdate}s ago` : lastUpdate?.toLocaleTimeString()}
+                </p>
+              </div>
               <button
                 onClick={fetchData}
                 className="flex items-center space-x-2 px-4 py-2 bg-slate-100 dark:bg-slate-700 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-600 transition-colors"
@@ -97,11 +119,6 @@ export default function Home() {
               </button>
             </div>
           </div>
-          {lastUpdate && (
-            <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
-              Last updated: {lastUpdate.toLocaleTimeString()}
-            </p>
-          )}
         </div>
       </header>
 
