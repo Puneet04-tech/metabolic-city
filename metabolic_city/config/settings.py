@@ -48,23 +48,19 @@ class Settings(BaseSettings):
     # Geohash Configuration
     geohash_precision: int = Field(6, env="GEOHASH_PRECISION")
     
+    # API Server Configuration
+    api_host: str = Field("0.0.0.0", env="API_HOST")
+    api_port: int = Field(8000, env="API_PORT")
+    api_reload: bool = Field(False, env="API_RELOAD")
+    
     # Logging
     log_level: str = Field("INFO", env="LOG_LEVEL")
     log_file: str = Field("logs/metabolic_city.log", env="LOG_FILE")
     
-    # API Server
-    api_host: str = Field("0.0.0.0", env="API_HOST")
-    api_port: int = Field(8000, env="API_PORT")
-    api_reload: bool = Field(True, env="API_RELOAD")
-    
-    # Forecasting Settings
-    forecasting_horizon_hours: int = Field(24, env="FORECASTING_HORIZON_HOURS")
+    # Feature Flags
     forecasting_enabled: bool = Field(True, env="FORECASTING_ENABLED")
-    
-    # Simulation Settings
+    forecasting_horizon_hours: int = Field(24, env="FORECASTING_HORIZON_HOURS")
     simulation_enabled: bool = Field(True, env="SIMULATION_ENABLED")
-    
-    # Feedback Integration
     feedback_enabled: bool = Field(True, env="FEEDBACK_ENABLED")
     feedback_api_endpoint: Optional[str] = Field(None, env="FEEDBACK_API_ENDPOINT")
     
