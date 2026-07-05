@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Activity, AlertTriangle, TrendingUp, MapPin, Download, RefreshCw } from 'lucide-react'
+import { Activity, AlertTriangle, TrendingUp, MapPin, Download, RefreshCw, Presentation } from 'lucide-react'
 import DashboardStats from '@/components/DashboardStats'
 import RiskMap from '@/components/RiskMap'
 import AlertsList from '@/components/AlertsList'
@@ -13,12 +13,14 @@ import ForecastingPanel from '@/components/ForecastingPanel'
 import SimulationPanel from '@/components/SimulationPanel'
 import FeedbackPanel from '@/components/FeedbackPanel'
 import DispatchPanel from '@/components/DispatchPanel'
+import PitchCards from '@/components/PitchCards'
 
 export default function Home() {
   const [loading, setLoading] = useState(true)
   const [data, setData] = useState<any>(null)
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null)
   const [secondsSinceUpdate, setSecondsSinceUpdate] = useState(0)
+  const [showPitchMode, setShowPitchMode] = useState(false)
 
   const fetchData = async () => {
     setLoading(true)
@@ -89,6 +91,19 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center space-x-3">
+              <button
+                onClick={() => setShowPitchMode(!showPitchMode)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                  showPitchMode 
+                    ? 'bg-primary-600 text-white hover:bg-primary-700' 
+                    : 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600'
+                }`}
+              >
+                <Presentation className="h-4 w-4" />
+                <span className="text-sm font-medium">
+                  {showPitchMode ? 'Dashboard' : 'Pitch Mode'}
+                </span>
+              </button>
               <div className="text-right mr-4">
                 <div className="flex items-center space-x-2">
                   <div className={`w-2 h-2 rounded-full ${secondsSinceUpdate < 15 ? 'bg-green-500' : 'bg-yellow-500'} animate-pulse`} />
@@ -128,6 +143,8 @@ export default function Home() {
           <div className="flex items-center justify-center h-64">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600"></div>
           </div>
+        ) : showPitchMode ? (
+          <PitchCards />
         ) : data ? (
           <div className="space-y-6">
             {/* Stats Cards */}
