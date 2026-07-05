@@ -2,24 +2,53 @@
 FastAPI server for dashboard API endpoints
 """
 
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from datetime import datetime
-from typing import Dict, Any, Optional
-import json
-import logging
 import sys
+import os
 
-from metabolic_city.main import MetabolicCityPipeline
-from metabolic_city.config.settings import settings
+# Force unbuffered output for Render logs
+sys.stdout = sys.stderr = __import__('io').TextIOWrapper(
+    sys.stdout.buffer if hasattr(sys.stdout, 'buffer') else sys.stderr.buffer,
+    encoding='utf-8',
+    line_buffering=True,
+    write_through=True
+)
+
+print("=" * 80, flush=True)
+print("METABOLIC CITY API SERVER STARTUP", flush=True)
+print("=" * 80, flush=True)
+print(f"Python version: {sys.version}", flush=True)
+print(f"Working directory: {os.getcwd()}", flush=True)
+print("=" * 80, flush=True)
+
+try:
+    from fastapi import FastAPI, HTTPException
+    from fastapi.middleware.cors import CORSMiddleware
+    from datetime import datetime
+    from typing import Dict, Any, Optional
+    import json
+    import logging
+    
+    print("[✓] FastAPI imports successful", flush=True)
+    
+    from metabolic_city.main import MetabolicCityPipeline
+    from metabolic_city.config.settings import settings
+    
+    print("[✓] Metabolic City imports successful", flush=True)
+except Exception as e:
+    print(f"[✗] IMPORT ERROR: {type(e).__name__}: {str(e)}", flush=True)
+    import traceback
+    traceback.print_exc(file=sys.stdout)
+    sys.exit(1)
 
 # Set up basic logging for startup debugging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    stream=sys.stdout
+    stream=sys.stdout,
+    force=True
 )
 logger = logging.getLogger(__name__)
+print("[✓] Logging configured", flush=True)
 
 app = FastAPI(title="MetabolicCity API", version="1.0.0")
 
