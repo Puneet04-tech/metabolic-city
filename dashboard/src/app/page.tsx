@@ -25,7 +25,8 @@ export default function Home() {
   const fetchData = async () => {
     setLoading(true)
     try {
-      const response = await fetch('http://localhost:8000/api/dashboard')
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
+      const response = await fetch(`${apiUrl}/api/dashboard`)
       if (response.ok) {
         const result = await response.json()
         setData(result)
