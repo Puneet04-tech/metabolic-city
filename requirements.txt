@@ -6,11 +6,11 @@ pydantic==2.5.2
 pydantic-settings==2.1.0
 
 # Data Processing
-pandas>=2.2.0
-numpy>=1.26.0
-geopandas>=0.14.0
+pandas
+numpy
+geopandas
 geohash2==1.1
-shapely>=2.0.0
+shapely
 
 # GTFS-RT Processing
 gtfs-realtime-bindings==1.0.0
