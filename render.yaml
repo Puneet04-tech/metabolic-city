@@ -6,7 +6,7 @@ services:
     plan: free
     pythonVersion: 3.11.9
     buildCommand: python3.11 -m pip install --upgrade pip && python3.11 -m pip install -r requirements.txt
-    startCommand: python -m metabolic_city.api.server
+    startCommand: python -m uvicorn metabolic_city.api.server:app --host 0.0.0.0 --port 8000 --log-level info
     envVars:
       - key: PYTHONUNBUFFERED
         value: "1"
