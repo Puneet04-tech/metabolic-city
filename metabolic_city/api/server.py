@@ -5,11 +5,21 @@ FastAPI server for dashboard API endpoints
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from datetime import datetime
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 import json
+import logging
+import sys
 
 from metabolic_city.main import MetabolicCityPipeline
 from metabolic_city.config.settings import settings
+
+# Set up basic logging for startup debugging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+    stream=sys.stdout
+)
+logger = logging.getLogger(__name__)
 
 app = FastAPI(title="MetabolicCity API", version="1.0.0")
 
@@ -22,10 +32,44 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Global pipeline instance
-pipeline = MetabolicCityPipeline()
+# Lazy-loaded pipeline instance
+_pipeline: Optional[MetabolicCityPipeline] = None
 last_cycle_data: Dict[str, Any] = {}
-last_cycle_time: datetime = None
+last_cycle_time: Optional[datetime] = None
+
+
+def get_pipeline() -> MetabolicCityPipeline:
+    """Get or initialize pipeline with error handling"""
+    global _pipeline
+    if _pipeline is None:
+        try:
+            logger.info("Initializing MetabolicCity Pipeline...")
+            _pipeline = MetabolicCityPipeline()
+            logger.info("Pipeline initialization successful")
+        except Exception as e:
+            logger.error(f"Pipeline initialization failed: {str(e)}", exc_info=True)
+            raise HTTPException(status_code=500, detail=f"Pipeline initialization error: {str(e)}")
+    return _pipeline
+
+
+@app.on_event("startup")
+async def startup_event():
+    """Initialize pipeline on server startup with error handling"""
+    try:
+        logger.info("FastAPI server starting up...")
+        get_pipeline()
+        logger.info("Server startup complete")
+    except Exception as e:
+        logger.error(f"Server startup error: {str(e)}", exc_info=True)
+        # Don't crash the server, just log the error
+        # Pipeline will be initialized on first API call
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    """Cleanup on server shutdown"""
+    logger.info("FastAPI server shutting down...")
+
 
 
 @app.get("/")
@@ -67,7 +111,7 @@ async def get_dashboard_data():
     if not last_cycle_data:
         # Run a single cycle if no data exists
         try:
-            last_cycle_data = await pipeline.run_single_cycle()
+            last_cycle_data = await get_pipeline().run_single_cycle()
             last_cycle_time = datetime.utcnow()
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Pipeline error: {str(e)}")
@@ -190,7 +234,7 @@ async def run_pipeline_cycle():
     global last_cycle_data, last_cycle_time
     
     try:
-        last_cycle_data = await pipeline.run_single_cycle()
+        last_cycle_data = await get_pipeline().run_single_cycle()
         last_cycle_time = datetime.utcnow()
         return last_cycle_data
     except Exception as e:
@@ -200,7 +244,7 @@ async def run_pipeline_cycle():
 @app.get("/api/status")
 async def get_system_status():
     """Get detailed system status"""
-    return pipeline.generate_status_report()
+    return get_pipeline().generate_status_report()
 
 
 @app.post("/api/simulation/run")
